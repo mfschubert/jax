@@ -117,6 +117,7 @@ def pallas_call_tpu_lowering_rule(
     compiler_params: dict[str, pallas_core.CompilerParams],
     cost_estimate: pallas_core.CostEstimate | None,
     out_avals: tuple[jax_core.AbstractValue, ...],
+    metadata: dict[str, str] | None,
 ):
   """Lowers a pallas_call to a Mosaic TPU custom call."""
   del mesh, interpret  # Unused.
@@ -268,6 +269,7 @@ def pallas_call_tpu_lowering_rule(
       output_memory_spaces=output_memory_spaces,
       disable_bounds_checks=mosaic_params.disable_bounds_checks,
       input_memory_spaces=input_memory_spaces,
+      metadata=metadata,
   )
   _maybe_cast_to_bool = lambda x, aval: x.astype(
       jax.numpy.bool_) if aval.dtype == jax.numpy.bool_ else x
