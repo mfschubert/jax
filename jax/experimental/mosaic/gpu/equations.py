@@ -14,6 +14,8 @@
 
 """Defines expressions and equations over layouts."""
 
+from __future__ import annotations
+
 import dataclasses
 from typing import assert_never, Any
 
@@ -106,6 +108,15 @@ class EquationSystem:
       extract_variables(equation.lhs)
       extract_variables(equation.rhs)
     return free_variables
+
+  def __and__(self, other: EquationSystem) -> EquationSystem | Unsatisfiable:
+    for variable, assignment in self.assignments.items():
+      if variable in other.assignments and assignment != other.assignments[variable]:
+        return Unsatisfiable()
+    return EquationSystem(
+        assignments=self.assignments | other.assignments,
+        equations=self.equations | other.equations,
+    )
 
 
 class Unsatisfiable:
