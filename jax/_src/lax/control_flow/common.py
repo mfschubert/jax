@@ -34,8 +34,6 @@ from jax._src.tree_util import (equality_errors_pytreedef, tree_map,
 
 map, unsafe_map = safe_map, map
 
-effects.control_flow_allowed_effects.add_type(lax.InOutFeedEffect)
-
 
 def _typecheck_param(prim, param, name, msg_required, pred):
   if not pred:
